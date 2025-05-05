@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import Select
+from bs4 import BeautifulSoup
 import time
 import smtplib
 from email.message import EmailMessage
@@ -13,12 +14,22 @@ from email.message import EmailMessage
 def setup_chrome_driver():
     # Set up Chrome options
     chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Headless mode for CI/CD
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-    
-    # Automatically download and manage ChromeDriver
-    service = Service(ChromeDriverManager().install())
+
+    # Check if we're in GitHub Actions environment
+    if os.getenv("GITHUB_ACTIONS") == "true":
+        # Use the pre-installed Chromedriver on GitHub runners
+        service = Service("/usr/bin/chromedriver")
+    else:
+        # Use ChromeDriverManager locally (it automatically downloads and manages chromedriver)
+        from webdriver_manager.chrome import ChromeDriverManager
+        service = Service(ChromeDriverManager().install())
+
     driver = webdriver.Chrome(service=service, options=chrome_options)
     return driver
 
