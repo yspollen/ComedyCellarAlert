@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 import time
 import smtplib
 from email.message import EmailMessage
+import os
 
 def setup_chrome_driver():
     # Set up Chrome options
