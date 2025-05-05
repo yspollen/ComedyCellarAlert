@@ -6,7 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import Select
-from bs4 import BeautifulSoup
 import time
 import smtplib
 from email.message import EmailMessage
@@ -96,5 +95,5 @@ if __name__ == "__main__":
     send_comedy_cellar_notification(
         f"New material alert! {' '.join(titles)}",
         sender_email="ericspollen@gmail.com",
-        app_password=""
+        app_password=os.getenv("EMAIL_PASSWORD")
     )

@@ -1,0 +1,31 @@
+name: Daily Comedy Cellar Check
+
+on:
+  schedule:
+    - cron: "0 14 * * *"  # Every day at 2:00 PM UTC
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        sudo apt-get update
+        sudo apt-get install -y chromium-chromedriver
+        sudo cp /usr/lib/chromium-browser/chromedriver /usr/bin
+
+    - name: Run script
+      env:
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      run: python comedy_cellar_alert.py
