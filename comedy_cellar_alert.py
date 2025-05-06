@@ -103,9 +103,10 @@ if __name__ == "__main__":
     # Wait for dynamic content to load
     print("⏳ Waiting for page to render...")
     titles = check_sets_after_dropdown_selection(driver)
-
-    send_comedy_cellar_notification(
-        f"New material alert! {' '.join(titles)}",
-        sender_email="ericspollen@gmail.com",
-        app_password=os.getenv("EMAIL_PASSWORD")
-    )
+    
+    if titles:
+        send_comedy_cellar_notification(
+            f"New material alert! {' '.join(titles)}",
+            sender_email="ericspollen@gmail.com",
+            app_password=os.getenv("EMAIL_PASSWORD")
+        )
