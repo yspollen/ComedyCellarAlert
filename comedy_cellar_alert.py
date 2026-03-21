@@ -64,7 +64,7 @@ def check_sets_after_dropdown_selection(driver, dropdown_id="cc_lineup_select_da
                 print("Titles found")
             
             for title in titles:
-                if ("new material" in title.text.strip().lower()):
+                if ("new material" in title.text.strip().lower() or "An Evening" in title.text.strip().lower()):
                     newMaterialArr.append(dropdown.options[index].text + ": " + title.text.strip())
         except:
             print(f"Element with class 'sets' not found after selecting index {index}.")
