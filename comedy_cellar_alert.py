@@ -107,7 +107,7 @@ if __name__ == "__main__":
     
     if titles:
         send_comedy_cellar_notification(
-            f"New material alert!\n{joined_titles}",
+            f"New material alert!\n- {joined_titles}",
             sender_email="ericspollen@gmail.com",
             app_password=os.getenv("EMAIL_PASSWORD")
         )
